@@ -15,7 +15,7 @@ public class RoadGenerator : MonoBehaviour
     private void Start()
     {
         ResetLevel();
-        StartLevel();
+        //StartLevel();
     }
     private void Update()
     {
@@ -48,7 +48,7 @@ public class RoadGenerator : MonoBehaviour
         }
     }
 
-    private void StartLevel()
+    public void StartLevel()
     {
         _speed = maxSpeed;
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoadGenerator : MonoBehaviour
@@ -35,7 +36,7 @@ public class RoadGenerator : MonoBehaviour
     }
 
     public void ResetLevel()
-    {
+    {     
         _speed = 0;
         while (roads.Count > 0)
         {
@@ -46,11 +47,13 @@ public class RoadGenerator : MonoBehaviour
         {
             CreateNextRoadTile();
         }
+        SwipeManager.Instance.enabled = false;
     }
 
     public void StartLevel()
     {
         _speed = maxSpeed;
+        SwipeManager.Instance.enabled = true;
     }
     private void CreateNextRoadTile()
     {

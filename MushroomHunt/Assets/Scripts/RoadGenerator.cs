@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class RoadGenerator : MonoBehaviour
+public class RoadGenerator : SingletonGeneric<RoadGenerator>
 {
     public GameObject roadTilePrefab;
     private List<GameObject> roads = new List<GameObject>();

@@ -3,18 +3,16 @@ using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SwipeManager : MonoBehaviour
+public class SwipeManager : SingletonGeneric<SwipeManager>
 {
-    public static SwipeManager Instance;
 
     public delegate void MoveDelegate(bool[] swipes);
     public MoveDelegate MoveEvent;
     public delegate void ClickDelegate(Vector2 pos);
     public ClickDelegate ClickEvent;
-    private enum Directions { Left, Right, Up, Down };
+    public enum Directions { Left, Right, Up, Down };
     private bool[] _swipes = new bool[4];
     
-
     private const float SWIPE_THRESHOLD = 50f;
     private Vector2 _startTouch;
     private Vector2 _swipeDelta;
@@ -24,13 +22,6 @@ public class SwipeManager : MonoBehaviour
     private bool TouchBegan () { return Input.GetMouseButtonDown (0); }
     private bool TouchEnded () { return Input.GetMouseButtonUp (0); }
     private bool GetTouch () { return Input.GetMouseButton (0); }
-
-    private void Awake() { Instance = this; }
-
-    private void Start()
-    {
-
-    }
 
     private void Update()
     {
@@ -85,7 +76,6 @@ public class SwipeManager : MonoBehaviour
         }
         Reset();
     }
-
     private void Reset()
     {
         _startTouch = _swipeDelta = Vector2.zero;

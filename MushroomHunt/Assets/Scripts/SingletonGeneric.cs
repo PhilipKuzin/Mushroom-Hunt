@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class SingletonGeneric <T> : MonoBehaviour where T : MonoBehaviour
@@ -8,17 +6,28 @@ public abstract class SingletonGeneric <T> : MonoBehaviour where T : MonoBehavio
 	public static T Instance
 	{
 		get 
-		{ 
+		{  
 			if(_instance != null)
-				return _instance;
+			{
+                return _instance;
+            }				
+
 			T[] instances = FindObjectsOfType<T>();
+
 			if (instances.Length > 0)
 			{
 				_instance = instances[0];
+
 				for (int i = 1; i < instances.Length; i++)
 				{
 					Destroy(instances[i]);
 				}
+			}
+			else
+			{
+				GameObject go = new GameObject();
+				go.name = typeof(T).ToString();
+				_instance = go.AddComponent<T>();
 			}
 			DontDestroyOnLoad(_instance);
 			return _instance;

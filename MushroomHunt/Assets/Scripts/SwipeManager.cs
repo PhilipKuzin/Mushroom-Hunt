@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 public class SwipeManager : SingletonGeneric<SwipeManager>
 {
-
     public delegate void MoveDelegate(bool[] swipes);
     public MoveDelegate MoveEvent;
     public delegate void ClickDelegate(Vector2 pos);
@@ -25,7 +24,7 @@ public class SwipeManager : SingletonGeneric<SwipeManager>
 
     private void Update()
     {
-        if ( EventSystem.current.IsPointerOverGameObject()) { return; }
+        if (EventSystem.current.IsPointerOverGameObject()) { return; }
 
         // START/FINISH
         if (TouchBegan())

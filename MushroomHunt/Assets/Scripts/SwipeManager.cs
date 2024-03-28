@@ -11,16 +11,16 @@ public class SwipeManager : SingletonGeneric<SwipeManager>
     public ClickDelegate ClickEvent;
     public enum Directions { Left, Right, Up, Down };
     private bool[] _swipes = new bool[4];
-    
+
     private const float SWIPE_THRESHOLD = 50f;
     private Vector2 _startTouch;
     private Vector2 _swipeDelta;
     private bool _touchMoved;
 
-    private Vector2 TouchPosition () { return (Vector2)Input.mousePosition; }
-    private bool TouchBegan () { return Input.GetMouseButtonDown (0); }
-    private bool TouchEnded () { return Input.GetMouseButtonUp (0); }
-    private bool GetTouch () { return Input.GetMouseButton (0); }
+    private Vector2 TouchPosition() { return (Vector2)Input.mousePosition; }
+    private bool TouchBegan() { return Input.GetMouseButtonDown(0); }
+    private bool TouchEnded() { return Input.GetMouseButtonUp(0); }
+    private bool GetTouch() { return Input.GetMouseButton(0); }
 
     private void Update()
     {
@@ -37,10 +37,10 @@ public class SwipeManager : SingletonGeneric<SwipeManager>
             SendSwipe();
             _touchMoved = false;
         }
-        
+
         // CALC DISTANCE
         _swipeDelta = Vector2.zero;
-        if(_touchMoved == true && GetTouch())
+        if (_touchMoved == true && GetTouch())
         {
             _swipeDelta = TouchPosition() - _startTouch;
         }

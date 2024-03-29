@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.4433962, g: 0.366103, b: 0.28193307, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.048
@@ -1197,7 +1197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &832575518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1278,6 +1278,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1356820439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1356820440}
+  - component: {fileID: 1356820441}
+  m_Layer: 0
+  m_Name: MapGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1356820440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356820439}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.06928937, y: 1.3668745, z: 0.37794662}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1356820441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356820439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d41d94b523e0b748bcbfdd09235595c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stumpPrefab: {fileID: 4736653311728975474, guid: 859fb946da19fb641a612ed899f475bc,
+    type: 3}
+  _treePrefab: {fileID: 9008334236839633655, guid: 4a49468991fc8f045abffc5faa7b1b89,
+    type: 3}
+  _mushroomPrefab: {fileID: 7983549303045791861, guid: 35250fddfa66eef4c8344d253a075c99,
+    type: 3}
+  maps: []
 --- !u!43 &1476881816
 Mesh:
   m_ObjectHideFlags: 0
@@ -2399,6 +2450,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3596227322753943936, guid: f911328be2a473145a527ab502546895,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4225376038932042554, guid: f911328be2a473145a527ab502546895,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2449,6 +2505,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7913549814140759837, guid: f911328be2a473145a527ab502546895,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2474,8 +2535,9 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1672336541271602496}
+  - {fileID: 1356820440}
   - {fileID: 1064108471}
+  - {fileID: 1833283373}
   - {fileID: 1841135808}
   - {fileID: 119236410}
-  - {fileID: 1833283373}
   - {fileID: 3355024171134458999}

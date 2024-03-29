@@ -50,8 +50,13 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = _startGamePosition;
         transform.rotation = _startGameRotation;
+        _targetPos = transform.position;
         _animator.SetTrigger(IDLE);
         RoadGenerator.Instance.ResetLevel();
+    }
+    public void StopGame()
+    {
+
     }
 
     private void OnTriggerEnter(Collider other)

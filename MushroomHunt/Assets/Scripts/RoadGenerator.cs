@@ -7,7 +7,7 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
     private List<GameObject> roads = new List<GameObject>();
 
     public int maxRoadCount = 5;
-    private float _speed = 0;
+    public float speed = 0;  // заменено с _speed на public speed
     public float maxSpeed = 10;
 
     private void Start()
@@ -17,12 +17,12 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
     }
     private void Update()
     {
-        if (_speed == 0)
+        if (speed == 0)
             return;
 
         foreach (var road in roads)
         {
-            road.transform.position -= new Vector3(0, 0, _speed * Time.deltaTime);
+            road.transform.position -= new Vector3(0, 0, speed * Time.deltaTime);
         }
         if (roads[0].transform.position.z < -5)
         {
@@ -34,7 +34,7 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
 
     public void ResetLevel()
     {
-        _speed = 0;
+        speed = 0;
         while (roads.Count > 0)
         {
             Destroy(roads[0]);
@@ -45,11 +45,12 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
             CreateNextRoadTile();
         }
         SwipeManager.Instance.enabled = false;
+        MapGenerator.Instance.ResetMaps();
     }
 
     public void StartLevel()
     {
-        _speed = maxSpeed;
+        speed = maxSpeed;
         SwipeManager.Instance.enabled = true;
     }
     private void CreateNextRoadTile()

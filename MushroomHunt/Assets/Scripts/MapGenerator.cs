@@ -11,7 +11,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
     private int _itemCountInMap = 5;
     private float _LaneOffset = 2f;           // в playercontroller брать lane offset отсюда! 
 
-    private int _mushroomCountInItem = 8;
+    private int _mushroomCountInItem = 9;
     private float _mushroomHeight = 0.25f;
 
     enum TrackPos { Left = -1, Center = 0, Right = 1 };

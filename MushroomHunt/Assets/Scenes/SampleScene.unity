@@ -2452,11 +2452,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3596227322753943936, guid: f911328be2a473145a527ab502546895,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4225376038932042554, guid: f911328be2a473145a527ab502546895,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2506,11 +2501,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7913549814140759837, guid: f911328be2a473145a527ab502546895,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

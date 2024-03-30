@@ -54,16 +54,5 @@ public class PlayerController : MonoBehaviour
         _animator.SetTrigger(IDLE);
         RoadGenerator.Instance.ResetLevel();
     }
-    public void StopGame()
-    {
 
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Lose")
-        {
-            ResetGame();
-        }
-    }
 }

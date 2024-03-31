@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class MapGenerator : SingletonGeneric<MapGenerator>
 {
@@ -7,37 +8,54 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
     [SerializeField] private GameObject _treePrefab;
     [SerializeField] private GameObject _mushroomPrefab;
 
-    private int _itemSpace = 8;
+    private int _itemSpace = 5;
     private int _itemCountInMap = 5;
-    private float _LaneOffset = 2f;           // в playercontroller брать lane offset отсюда! 
+    private int _mapSize;
+    private float _LaneOffset = 2.2f;           // в playercontroller брать lane offset отсюда! 
 
-    private int _mushroomCountInItem = 9;
+    private int _mushroomCountInItem = 10;
     private float _mushroomHeight = 0.25f;
 
     enum TrackPos { Left = -1, Center = 0, Right = 1 };
     enum MushroomStyle { Empty, Line, Jump };
+
+    struct MapItem
+    {
+        public void SetValues(GameObject obstacle, TrackPos trackPos, MushroomStyle mushroomStyle)
+        {
+            this.obstacle = obstacle;
+            this.trackPos = trackPos;
+            this.mushroomStyle = mushroomStyle;
+        }
+        public void SetValues(MushroomStyle mushroomStyle)
+        {
+            this.mushroomStyle = mushroomStyle;
+        }
+
+        public GameObject obstacle;
+        public TrackPos trackPos;
+        public MushroomStyle mushroomStyle;
+    }
 
     public List<GameObject> maps = new List<GameObject>();
     public List<GameObject> activeMaps = new List<GameObject>();
 
     private void Awake()
     {
+        _mapSize = _itemCountInMap * _itemSpace;
+
         maps.Add(MakeMap1());
+        maps.Add(MakeMap2());
         maps.Add(MakeMap2());
         maps.Add(MakeMap3());
         maps.Add(MakeMap4());
         maps.Add(MakeMap5());
-        maps.Add(MakeMap6());
-        maps.Add(MakeMap7());
+        maps.Add(MakeMap5());
 
         foreach (GameObject map in maps)
         {
             map.SetActive(false);
         }
-    }
-    private void Start()
-    {
-     
     }
 
     private void Update()
@@ -48,9 +66,9 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
         {
             map.transform.position -= new Vector3(0, 0, RoadGenerator.Instance.speed * Time.deltaTime);
         }
-        if (activeMaps[0].transform.position.z < -_itemCountInMap * _itemSpace)
+        if (activeMaps[0].transform.position.z < -_mapSize)
         {
-            RemoveFirstActiveMap(); 
+            RemoveFirstActiveMap();
             AddActiveMap();
         }
     }
@@ -65,9 +83,9 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             child.gameObject.SetActive(true);
         }
         go.transform.position = activeMaps.Count > 0 ?
-            activeMaps[activeMaps.Count - 1].transform.position + Vector3.forward * _itemCountInMap * _itemSpace :
-            new Vector3(0, 0, 10);
-
+            activeMaps[activeMaps.Count - 1].transform.position + Vector3.forward * _mapSize :
+            new Vector3(0, 0, 10); // если на сцене есть мапы - следующую смещаем на размер мапы, если нет
+                                   // - перед ГГ смещаем на 20
         maps.RemoveAt(r);
         activeMaps.Add(go);
     }
@@ -89,196 +107,152 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
         AddActiveMap();
     }
 
-    private GameObject MakeMap1()  // 3 ПНЯ ПОПЕРК В ЛИНИЮ 
+    private GameObject MakeMap1()   // РОЩА ДЕРЕВЬЕВ
     {
         GameObject result = new GameObject();
         result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
+        MapItem mapItem = new MapItem();
 
         for (int i = 0; i < _itemCountInMap; i++)
         {
-            GameObject obstacle = null;
-            TrackPos trackPos = TrackPos.Center;
-            MushroomStyle mushroomStyle = MushroomStyle.Empty;
+            mapItem.SetValues(null, TrackPos.Center, MushroomStyle.Empty);
 
-            if (i == 1) { trackPos = TrackPos.Left; obstacle = _stumpPrefab;  }
-            else if (i == 2) { trackPos = TrackPos.Right; obstacle = _stumpPrefab;  }
-            else if (i == 3) { trackPos = TrackPos.Center; obstacle = _stumpPrefab;  }
+            if (i == 0) { mapItem.SetValues(_treePrefab, TrackPos.Center, MushroomStyle.Empty); }
+            else if (i == 1) { mapItem.SetValues(_treePrefab, TrackPos.Left, MushroomStyle.Empty); }
+            else if (i == 2) { mapItem.SetValues(_treePrefab, TrackPos.Right, MushroomStyle.Empty); }
+            else if (i == 3) { mapItem.SetValues(_treePrefab, TrackPos.Center, MushroomStyle.Empty); }
+            else if (i == 4) { mapItem.SetValues(_treePrefab, TrackPos.Right, MushroomStyle.Empty); }
 
-            Vector3 obstaclePos = new Vector3((int)trackPos * _LaneOffset, 0, 0);
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * _LaneOffset, 0, i * _itemSpace);
 
-            CreateMushrooms(mushroomStyle, obstaclePos, result);
+            CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
 
-            if (obstacle != null)
+            if (mapItem.obstacle != null)
             {
-                GameObject go = Instantiate(obstacle, obstaclePos, Quaternion.identity);
+                int isRandomRotation = Random.Range(0, 2);
+                if (mapItem.obstacle == _treePrefab && isRandomRotation == 0)
+                {
+                    GameObject go = Instantiate(mapItem.obstacle, obstaclePos, Quaternion.identity);
+                    go.transform.SetParent(result.transform);
+                }
+                else if (mapItem.obstacle == _treePrefab && isRandomRotation == 1)
+                {
+                    GameObject go = Instantiate(mapItem.obstacle, obstaclePos, new Quaternion(0, 180, 0, 0));
+                    go.transform.SetParent(result.transform);
+                }
+            }
+        }
+        return result;
+    }
+    private GameObject MakeMap2()
+    {
+        GameObject result = new GameObject();
+        result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
+        MapItem mapItem = new MapItem();
+
+        for (int i = 0; i < _itemCountInMap; i++)
+        {
+            mapItem.SetValues(null, TrackPos.Center, MushroomStyle.Empty);
+
+            if (i == 0) { mapItem.SetValues(MushroomStyle.Line); }
+            else if (i == 1) { mapItem.SetValues(_stumpPrefab, TrackPos.Left, MushroomStyle.Jump); }
+            else if (i == 2) { mapItem.SetValues(_treePrefab, TrackPos.Right, MushroomStyle.Empty); }
+            else if (i == 3) { mapItem.SetValues(MushroomStyle.Line); }
+            else if (i == 4) { mapItem.SetValues(_treePrefab, TrackPos.Left, MushroomStyle.Empty); }
+
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * _LaneOffset, 0, i * _itemSpace);
+
+            CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
+
+            if (mapItem.obstacle != null)
+            {
+                GameObject go = Instantiate(mapItem.obstacle, obstaclePos, Quaternion.identity);
                 go.transform.SetParent(result.transform);
             }
         }
         return result;
     }
-
-    private GameObject MakeMap2 ()
-    {
-        GameObject result = new GameObject();
-        result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
-        for (int i = 0; i < _itemCountInMap; i++)
-        {
-            GameObject obstacle = null;
-            TrackPos trackPos = TrackPos.Center;
-            MushroomStyle mushroomStyle = MushroomStyle.Line;
-
-            if (i == 2) { trackPos = TrackPos.Right; obstacle = _stumpPrefab; mushroomStyle = MushroomStyle.Jump; }
-            else if (i == 3) { trackPos = TrackPos.Center; obstacle = _stumpPrefab; mushroomStyle = MushroomStyle.Jump; }
-            else if (i == 4) { trackPos = TrackPos.Left; obstacle = _stumpPrefab; mushroomStyle = MushroomStyle.Jump; }
-
-            Vector3 obstaclePos = new Vector3((int)trackPos * _LaneOffset, 0, i * _itemSpace);
-
-            CreateMushrooms(mushroomStyle, obstaclePos, result);
-
-            if (obstacle != null)
-            {
-                GameObject go = Instantiate(obstacle, obstaclePos, Quaternion.identity);
-                go.transform.SetParent(result.transform);
-            }
-        }
-        return result;
-    }
-
     private GameObject MakeMap3()
     {
         GameObject result = new GameObject();
         result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
-        for (int i = 0; i < _itemCountInMap; i++)
+        MapItem mapItem = new MapItem();
+
+        for (int i = 0; i < _itemCountInMap - 2; i++)
         {
-            GameObject obstacle = null;
-            TrackPos trackPos = TrackPos.Center;
-            MushroomStyle mushroomStyle = MushroomStyle.Empty;
+            mapItem.SetValues(null, TrackPos.Center, MushroomStyle.Empty);
 
-            if (i == 2) { trackPos = TrackPos.Right; mushroomStyle = MushroomStyle.Line; }
-            else if (i == 3) { trackPos = TrackPos.Center;mushroomStyle = MushroomStyle.Line; }
-            else if (i == 4) { trackPos = TrackPos.Left; obstacle = _stumpPrefab; mushroomStyle = MushroomStyle.Jump; }
+            if (i == 0) { mapItem.SetValues(_treePrefab, TrackPos.Center, MushroomStyle.Empty); }
+            else if (i == 1) { mapItem.SetValues(_stumpPrefab, TrackPos.Right, MushroomStyle.Jump); }
+            else if (i == 2) { mapItem.SetValues(_treePrefab, TrackPos.Left, MushroomStyle.Empty); }
 
-            Vector3 obstaclePos = new Vector3((int)trackPos * _LaneOffset, 0, i * _itemSpace);
 
-            CreateMushrooms(mushroomStyle, obstaclePos, result);
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * _LaneOffset, 0, 0);
 
-            if (obstacle != null)
+            CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
+
+            if (mapItem.obstacle != null)
             {
-                GameObject go = Instantiate(obstacle, obstaclePos, Quaternion.identity);
+                GameObject go = Instantiate(mapItem.obstacle, obstaclePos, Quaternion.identity);
                 go.transform.SetParent(result.transform);
             }
         }
         return result;
     }
-
     private GameObject MakeMap4()
     {
         GameObject result = new GameObject();
         result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
-        for (int i = 0; i < _itemCountInMap; i++)
+        MapItem mapItem = new MapItem();
+
+        for (int i = 0; i < _itemCountInMap - 2; i++)
         {
-            GameObject obstacle = null;
-            TrackPos trackPos = TrackPos.Center;
-            MushroomStyle mushroomStyle = MushroomStyle.Empty;
+            mapItem.SetValues(null, TrackPos.Left, MushroomStyle.Empty);
 
-            if (i == 2) { trackPos = TrackPos.Right; obstacle = _treePrefab; }
-            else if (i == 3) { trackPos = TrackPos.Center; obstacle = _stumpPrefab; mushroomStyle = MushroomStyle.Jump; }
-            else if (i == 4) { trackPos = TrackPos.Left; obstacle = _treePrefab;  }
+            if (i == 0) { mapItem.SetValues(_treePrefab, TrackPos.Center, MushroomStyle.Empty); }
+            else if (i == 1) { mapItem.SetValues(MushroomStyle.Line); }
+            else if (i == 2) { mapItem.SetValues(_treePrefab, TrackPos.Right, MushroomStyle.Empty); }
 
-            Vector3 obstaclePos = new Vector3((int)trackPos * _LaneOffset, 0, 0);
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * _LaneOffset, 0, 0);
 
-            CreateMushrooms(mushroomStyle, obstaclePos, result);
+            CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
 
-            if (obstacle != null)
+            if (mapItem.obstacle != null)
             {
-                GameObject go = Instantiate(obstacle, obstaclePos, Quaternion.identity);
+                GameObject go = Instantiate(mapItem.obstacle, obstaclePos, Quaternion.identity);
                 go.transform.SetParent(result.transform);
             }
         }
         return result;
     }
-
     private GameObject MakeMap5()
     {
         GameObject result = new GameObject();
         result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
+        MapItem mapItem = new MapItem();
+
         for (int i = 0; i < _itemCountInMap; i++)
         {
-            GameObject obstacle = null;
-            TrackPos trackPos = TrackPos.Center;
-            MushroomStyle mushroomStyle = MushroomStyle.Empty;
+            mapItem.SetValues(null, TrackPos.Center, MushroomStyle.Empty);
 
-            if (i == 2) { trackPos = TrackPos.Right; mushroomStyle = MushroomStyle.Line; }
-            else if (i == 4) { trackPos = TrackPos.Left; obstacle = _treePrefab; }
+            if (i == 0) { mapItem.SetValues(_stumpPrefab, TrackPos.Left, MushroomStyle.Jump); }
+            else if (i == 1) { mapItem.SetValues(MushroomStyle.Line); }
+            else if (i == 2) { mapItem.SetValues(_treePrefab, TrackPos.Left, MushroomStyle.Empty); }
+            else if (i == 3) { mapItem.SetValues(_treePrefab, TrackPos.Right, MushroomStyle.Empty); }
+            else if (i == 4) { mapItem.SetValues(MushroomStyle.Line); }
 
-            Vector3 obstaclePos = new Vector3((int)trackPos * _LaneOffset, 0, 0);
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * _LaneOffset, 0, i * _itemSpace);
 
-            CreateMushrooms(mushroomStyle, obstaclePos, result);
+            CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
 
-            if (obstacle != null)
+            if (mapItem.obstacle != null)
             {
-                GameObject go = Instantiate(obstacle, obstaclePos, Quaternion.identity);
+                GameObject go = Instantiate(mapItem.obstacle, obstaclePos, Quaternion.identity);
                 go.transform.SetParent(result.transform);
             }
         }
         return result;
     }
-
-    private GameObject MakeMap6()
-    {
-        GameObject result = new GameObject();
-        result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
-        for (int i = 0; i < _itemCountInMap; i++)
-        {
-            GameObject obstacle = null;
-            TrackPos trackPos = TrackPos.Center;
-            MushroomStyle mushroomStyle = MushroomStyle.Empty;
-
-            if (i == 1) { trackPos = TrackPos.Right; mushroomStyle = MushroomStyle.Line; }
-            else if (i == 3) { trackPos = TrackPos.Right; obstacle = _stumpPrefab; mushroomStyle = MushroomStyle.Jump; }
-            else if (i == 4) { trackPos = TrackPos.Left; obstacle = _treePrefab; }
-
-            Vector3 obstaclePos = new Vector3((int)trackPos * _LaneOffset, 0, i * _itemSpace);
-
-            CreateMushrooms(mushroomStyle, obstaclePos, result);
-
-            if (obstacle != null)
-            {
-                GameObject go = Instantiate(obstacle, obstaclePos, Quaternion.identity);
-                go.transform.SetParent(result.transform);
-            }
-        }
-        return result;
-    }
-
-    private GameObject MakeMap7()
-    {
-        GameObject result = new GameObject();
-        result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
-        for (int i = 0; i < _itemCountInMap; i++)
-        {
-            GameObject obstacle = null;
-            TrackPos trackPos = TrackPos.Center;
-            MushroomStyle mushroomStyle = MushroomStyle.Empty;
-
-            if (i == 0) { trackPos = TrackPos.Left; mushroomStyle = MushroomStyle.Line; }
-            if (i == 1) { trackPos = TrackPos.Left; obstacle = _treePrefab; }
-            else if (i == 3) { trackPos = TrackPos.Right; obstacle = _stumpPrefab; mushroomStyle = MushroomStyle.Jump; }
-            else if (i == 4) { trackPos = TrackPos.Left; obstacle = _treePrefab; }
-
-            Vector3 obstaclePos = new Vector3((int)trackPos * _LaneOffset, 0, i * _itemSpace);
-
-            CreateMushrooms(mushroomStyle, obstaclePos, result);
-
-            if (obstacle != null)
-            {
-                GameObject go = Instantiate(obstacle, obstaclePos, Quaternion.identity);
-                go.transform.SetParent(result.transform);
-            }
-        }
-        return result;
-    }
-
 
     private void CreateMushrooms(MushroomStyle style, Vector3 pos, GameObject parentObject)
     {
@@ -301,7 +275,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
         {
             for (int i = -_mushroomCountInItem / 2; i < _mushroomCountInItem / 2; i++)
             {
-                mushroomPos.y = Mathf.Max(-1 / 2f * Mathf.Pow(i, 2) + 2, _mushroomHeight);
+                mushroomPos.y = Mathf.Max(-1 / 6f * Mathf.Pow(i, 2) + (float)1.6, _mushroomHeight);
                 mushroomPos.z = i * ((float)_itemSpace / _mushroomCountInItem);
                 GameObject go = Instantiate(_mushroomPrefab, mushroomPos + pos, Quaternion.identity);
                 go.transform.SetParent(parentObject.transform);

@@ -11,7 +11,6 @@ public class MushroomController : MonoBehaviour
         _rotationSpeed += Random.Range(0, _rotationSpeed / 4f);
     }
 
-
     void Update()
     {
         transform.Rotate(0, _rotationSpeed * Time.deltaTime, 0);

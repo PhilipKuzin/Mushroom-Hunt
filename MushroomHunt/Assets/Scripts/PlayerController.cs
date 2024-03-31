@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _startGamePosition;
     private Quaternion _startGameRotation;
     private Vector3 _targetPos;
-    private float _laneOffset = 2f;
+    private float _laneOffset = 2.2f;
     private float _laneChangeSpeed = 15;
 
     private const string RUN = "Run";
@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
             _targetPos = new Vector3(_targetPos.x + _laneOffset, transform.position.y, transform.position.z);
         }
         transform.position = Vector3.MoveTowards(transform.position, _targetPos, _laneChangeSpeed * Time.deltaTime);
+        
     }
 
     public void StartGame()

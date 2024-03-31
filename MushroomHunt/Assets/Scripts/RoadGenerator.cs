@@ -60,8 +60,19 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
         {
             pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 4);
         }
-        GameObject go = Instantiate(roadTilePrefab, pos, Quaternion.identity);
-        go.transform.SetParent(transform);
-        roads.Add(go);
+        int r = Random.Range (0, 2);
+        if (r == 0)
+        {
+            GameObject go = Instantiate(roadTilePrefab, pos, Quaternion.identity);
+            go.transform.SetParent(transform);
+            roads.Add(go);
+        }
+        else
+        {
+            GameObject go = Instantiate(roadTilePrefab, pos, new Quaternion (0, 180 ,0,0));
+            go.transform.SetParent(transform);
+            roads.Add(go);
+        }
+
     }
 }

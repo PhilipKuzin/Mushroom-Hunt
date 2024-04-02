@@ -12,6 +12,7 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
 
     private void Start()
     {
+        PoolManager.Instance.Preload(roadTilePrefab, 10);
         ResetLevel();
         //StartLevel();
     }
@@ -26,6 +27,7 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
         }
         if (roads[0].transform.position.z < -5)
         {
+            //PoolManager.Instance.Despawn(roads[0]);
             Destroy(roads[0]);
             roads.RemoveAt(0);
             CreateNextRoadTile();

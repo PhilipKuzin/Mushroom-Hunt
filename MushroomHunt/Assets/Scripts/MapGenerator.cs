@@ -85,7 +85,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
         go.transform.position = activeMaps.Count > 0 ?
             activeMaps[activeMaps.Count - 1].transform.position + Vector3.forward * _mapSize :
             new Vector3(0, 0, 10); // если на сцене есть мапы - следующую смещаем на размер мапы, если нет
-                                   // - перед ГГ смещаем на 20
+                                   // - перед ГГ смещаем на 10
         maps.RemoveAt(r);
         activeMaps.Add(go);
     }

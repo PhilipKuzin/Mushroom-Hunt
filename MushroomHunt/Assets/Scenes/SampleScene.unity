@@ -1261,7 +1261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roadTilePrefab: {fileID: 3458124442652873572, guid: b9c6a7ea890bd104d9ea0665aabf4761,
     type: 3}
-  maxRoadCount: 10
+  maxRoadCount: 15
   speed: 0
   maxSpeed: 8
 --- !u!4 &1064108471

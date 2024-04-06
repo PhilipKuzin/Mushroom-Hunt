@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Lose
   - Shroom
+  - Ground
   layers:
   - Default
   - TransparentFX

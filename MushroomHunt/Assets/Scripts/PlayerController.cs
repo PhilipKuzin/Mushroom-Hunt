@@ -12,6 +12,12 @@ public class PlayerController : MonoBehaviour
     private float _laneOffset = 2.2f;
     private float _laneChangeSpeed = 15;
 
+    private bool _isJumping = false;
+
+
+    private float _jumpPower = 30;
+    private float _jumpGravity = -40;
+    private float _realGravity = -9.81f;
     private const string RUN = "Run";
     private const string IDLE = "Idle";
     private void Start()
@@ -27,19 +33,59 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A) && _targetPos.x > -_laneOffset)
         {
-            _targetPos = new Vector3 (_targetPos.x - _laneOffset, transform.position.y, transform.position.z);
+            _targetPos = new Vector3(_targetPos.x - _laneOffset, transform.position.y, transform.position.z); // попробовать starting game position в случае летания после прыжков
         }
-        if(Input.GetKeyDown(KeyCode.D) && _targetPos.x < _laneOffset) 
+        if (Input.GetKeyDown(KeyCode.D) && _targetPos.x < _laneOffset)
         {
             _targetPos = new Vector3(_targetPos.x + _laneOffset, transform.position.y, transform.position.z);
         }
+        if (Input.GetKeyDown(KeyCode.W) && _isJumping == false)
+        {
+            _isJumping = true;
+            _animator.SetTrigger("Jump");
+            float jumpHeight = 1.8f;
+            StartCoroutine(JumpSequence(jumpHeight));
+        }
         transform.position = Vector3.MoveTowards(transform.position, _targetPos, _laneChangeSpeed * Time.deltaTime);
-        
+    }
+
+
+    IEnumerator JumpSequence(float jumpHeight)
+    {
+        Vector3 startPos = transform.position;
+        Vector3 peakPos = startPos + Vector3.up * jumpHeight;
+
+        float jumpDuration = 0.3f; // Время прыжка
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < jumpDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / jumpDuration;
+            transform.position = Vector3.Lerp(startPos, peakPos, t);
+
+            yield return null;
+        }
+
+        elapsedTime = 0f;
+
+        while (elapsedTime < jumpDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / jumpDuration;
+            transform.position = Vector3.Lerp(peakPos, startPos, t);
+
+            yield return null;
+        }
+
+        _isJumping = false;
     }
 
     public void StartGame()
     {
         _animator.SetTrigger(RUN);
+        StartLevel();
     }
 
     public void StartLevel()

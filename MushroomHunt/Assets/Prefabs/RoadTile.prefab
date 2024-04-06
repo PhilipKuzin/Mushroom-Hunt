@@ -134,9 +134,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7803199856179706897}
+  - component: {fileID: 7769837945417947280}
   m_Layer: 0
   m_Name: RoadTile
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -164,6 +165,27 @@ Transform:
   - {fileID: 6728175454311233012}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7769837945417947280
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3458124442652873572}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9.6, y: 1, z: 4}
+  m_Center: {x: 0, y: -0.49, z: 0}
 --- !u!1 &3570920065459930590
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +266,7 @@ GameObject:
   - component: {fileID: 2152368372383797648}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -435,7 +457,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 684
+  m_VersionIndex: 687
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

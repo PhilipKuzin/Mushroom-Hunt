@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float _laneChangeSpeed = 15;
 
     private bool _isJumping = false;
+    private bool _allowMovement = false;
 
     private const string RUN = "Run";
     private const string IDLE = "Idle";
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (_allowMovement == false) { return; }
+
         // Проверяем, не находится ли персонаж в процессе прыжка
         if (!_isJumping)
         {
@@ -56,7 +59,7 @@ public class PlayerController : MonoBehaviour
         Vector3 startPos = transform.position;
         Vector3 peakPos = startPos + Vector3.up * jumpHeight;
 
-        float jumpDuration = 0.3f; // Время прыжка
+        float jumpDuration = 0.3f; 
 
         float elapsedTime = 0f;
 
@@ -83,8 +86,10 @@ public class PlayerController : MonoBehaviour
         _isJumping = false;
     }
 
+
     public void StartGame()
     {
+        _allowMovement = true;
         _animator.SetTrigger(RUN);
         StartLevel();
     }
@@ -96,6 +101,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetGame()
     {
+        _allowMovement = false;
         transform.position = _startGamePosition;
         transform.rotation = _startGameRotation;
         _targetPos = transform.position;

@@ -21,6 +21,7 @@ public class MushroomController : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             transform.parent.gameObject.SetActive(false);
+            CollectController.Instance.Collect();
         }
     }
 }

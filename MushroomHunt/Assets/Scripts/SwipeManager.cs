@@ -26,7 +26,7 @@ public class SwipeManager : SingletonGeneric<SwipeManager>
     {
         if (EventSystem.current.IsPointerOverGameObject()) { return; }
 
-        // START/FINISH
+        // start / finish
         if (TouchBegan())
         {
             _startTouch = TouchPosition();
@@ -38,14 +38,14 @@ public class SwipeManager : SingletonGeneric<SwipeManager>
             _touchMoved = false;
         }
 
-        // CALC DISTANCE
+        // calculate distance
         _swipeDelta = Vector2.zero;
         if (_touchMoved == true && GetTouch())
         {
             _swipeDelta = TouchPosition() - _startTouch;
         }
 
-        //CHECK SWIPE
+        //check swipe
         if (_swipeDelta.magnitude > SWIPE_THRESHOLD)
         {
             if (Mathf.Abs(_swipeDelta.x) > Mathf.Abs(_swipeDelta.y))

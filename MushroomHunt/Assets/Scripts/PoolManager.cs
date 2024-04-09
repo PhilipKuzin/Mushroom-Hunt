@@ -7,7 +7,7 @@ public class PoolManager : SingletonGeneric<PoolManager>
     class Pool
     {
         private List<GameObject> _inactive = new List<GameObject>();
-        public GameObject prefab;
+        private GameObject prefab;
 
         public Pool(GameObject prefab)
         {

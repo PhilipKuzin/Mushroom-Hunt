@@ -132,12 +132,12 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
                 int isRandomRotation = Random.Range(0, 2);
                 if (mapItem.obstacle == _treePrefab && isRandomRotation == 0)
                 {
-                    GameObject go = Instantiate(mapItem.obstacle, obstaclePos, Quaternion.identity);
+                    GameObject go = PoolManager.Instance.Spawn(mapItem.obstacle, obstaclePos, Quaternion.identity);
                     go.transform.SetParent(result.transform);
                 }
                 else if (mapItem.obstacle == _treePrefab && isRandomRotation == 1)
                 {
-                    GameObject go = Instantiate(mapItem.obstacle, obstaclePos, new Quaternion(0, 180, 0, 0));
+                    GameObject go = PoolManager.Instance.Spawn(mapItem.obstacle, obstaclePos, new Quaternion(0, 180, 0, 0));
                     go.transform.SetParent(result.transform);
                 }
             }
@@ -166,7 +166,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
 
             if (mapItem.obstacle != null)
             {
-                GameObject go = Instantiate(mapItem.obstacle, obstaclePos, Quaternion.identity);
+                GameObject go = PoolManager.Instance.Spawn(mapItem.obstacle, obstaclePos, Quaternion.identity);
                 go.transform.SetParent(result.transform);
             }
         }
@@ -193,7 +193,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
 
             if (mapItem.obstacle != null)
             {
-                GameObject go = Instantiate(mapItem.obstacle, obstaclePos, Quaternion.identity);
+                GameObject go = PoolManager.Instance.Spawn(mapItem.obstacle, obstaclePos, Quaternion.identity);
                 go.transform.SetParent(result.transform);
             }
         }
@@ -219,7 +219,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
 
             if (mapItem.obstacle != null)
             {
-                GameObject go = Instantiate(mapItem.obstacle, obstaclePos, Quaternion.identity);
+                GameObject go = PoolManager.Instance.Spawn(mapItem.obstacle, obstaclePos, Quaternion.identity);
                 go.transform.SetParent(result.transform);
             }
         }
@@ -247,7 +247,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
 
             if (mapItem.obstacle != null)
             {
-                GameObject go = Instantiate(mapItem.obstacle, obstaclePos, Quaternion.identity);
+                GameObject go = PoolManager.Instance.Spawn(mapItem.obstacle, obstaclePos, Quaternion.identity);
                 go.transform.SetParent(result.transform);
             }
         }
@@ -266,7 +266,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             {
                 mushroomPos.y = _mushroomHeight;
                 mushroomPos.z = i * ((float)_itemSpace / _mushroomCountInItem);
-                GameObject go = Instantiate(_mushroomPrefab, mushroomPos + pos, Quaternion.identity);
+                GameObject go = PoolManager.Instance.Spawn(_mushroomPrefab, mushroomPos + pos, Quaternion.identity);
                 go.transform.SetParent(parentObject.transform);
             }
 
@@ -277,7 +277,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             {
                 mushroomPos.y = Mathf.Max(-1 / 6f * Mathf.Pow(i, 2) + (float)1.6, _mushroomHeight);
                 mushroomPos.z = i * ((float)_itemSpace / _mushroomCountInItem);
-                GameObject go = Instantiate(_mushroomPrefab, mushroomPos + pos, Quaternion.identity);
+                GameObject go = PoolManager.Instance.Spawn(_mushroomPrefab, mushroomPos + pos, Quaternion.identity);
                 go.transform.SetParent(parentObject.transform);
             }
         }

@@ -7,14 +7,13 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
     private List<GameObject> roads = new List<GameObject>();
 
     public int maxRoadCount = 5;
-    public float speed = 0;  // заменено с _speed на public speed
+    public float speed = 0;  
     public float maxSpeed = 10;
 
     private void Start()
     {
         PoolManager.Instance.Preload(roadTilePrefab, 10);
         ResetLevel();
-        //StartLevel();
     }
     private void Update()
     {
@@ -27,8 +26,7 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
         }
         if (roads[0].transform.position.z < -5)
         {
-            //PoolManager.Instance.Despawn(roads[0]);
-            Destroy(roads[0]);
+            PoolManager.Instance.Despawn(roads[0]);
             roads.RemoveAt(0);
             CreateNextRoadTile();
         }
@@ -48,6 +46,7 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
         }
         SwipeManager.Instance.enabled = false;
         MapGenerator.Instance.ResetMaps();
+        CollectController.Instance.ResetCollectController();
     }
 
     public void StartLevel()
@@ -62,16 +61,18 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
         {
             pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 4);
         }
+
         int r = Random.Range (0, 2);
+
         if (r == 0)
         {
-            GameObject go = Instantiate(roadTilePrefab, pos, Quaternion.identity);
+            GameObject go = PoolManager.Instance.Spawn(roadTilePrefab, pos, Quaternion.identity);
             go.transform.SetParent(transform);
             roads.Add(go);
         }
         else
         {
-            GameObject go = Instantiate(roadTilePrefab, pos, new Quaternion (0, 180 ,0,0));
+            GameObject go = PoolManager.Instance.Spawn(roadTilePrefab, pos, new Quaternion (0, 180 ,0,0));
             go.transform.SetParent(transform);
             roads.Add(go);
         }

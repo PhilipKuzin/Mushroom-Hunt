@@ -14,10 +14,6 @@ public class PlayerController : MonoBehaviour
 
     private bool _isJumping = false;
 
-
-    private float _jumpPower = 30;
-    private float _jumpGravity = -40;
-    private float _realGravity = -9.81f;
     private const string RUN = "Run";
     private const string IDLE = "Idle";
     private void Start()
@@ -31,14 +27,19 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) && _targetPos.x > -_laneOffset)
+        // Проверяем, не находится ли персонаж в процессе прыжка
+        if (!_isJumping)
         {
-            _targetPos = new Vector3(_targetPos.x - _laneOffset, transform.position.y, transform.position.z); // попробовать starting game position в случае летания после прыжков
+            if (Input.GetKeyDown(KeyCode.A) && _targetPos.x > -_laneOffset)
+            {
+                _targetPos = new Vector3(_targetPos.x - _laneOffset, transform.position.y, transform.position.z);
+            }
+            if (Input.GetKeyDown(KeyCode.D) && _targetPos.x < _laneOffset)
+            {
+                _targetPos = new Vector3(_targetPos.x + _laneOffset, transform.position.y, transform.position.z);
+            }
         }
-        if (Input.GetKeyDown(KeyCode.D) && _targetPos.x < _laneOffset)
-        {
-            _targetPos = new Vector3(_targetPos.x + _laneOffset, transform.position.y, transform.position.z);
-        }
+
         if (Input.GetKeyDown(KeyCode.W) && _isJumping == false)
         {
             _isJumping = true;

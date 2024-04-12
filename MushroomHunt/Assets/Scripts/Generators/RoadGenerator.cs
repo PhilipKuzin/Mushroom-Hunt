@@ -12,7 +12,7 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
 
     private void Start()
     {
-        PoolManager.Instance.Preload(roadTilePrefab, 10);
+        //PoolManager.Instance.Preload(roadTilePrefab, 10);  предзагрузка участков дороги
         ResetLevel();
     }
     private void Update()

@@ -42,14 +42,6 @@ public class PoolManager : SingletonGeneric<PoolManager>
 
     private Dictionary<string, Pool> pools = new Dictionary<string, Pool>();
 
-    private void Init(GameObject prefab)
-    {
-        if (prefab != null && pools.ContainsKey(prefab.name) == false)
-        {
-            pools[prefab.name] = new Pool(prefab);
-        }
-    }
-
     public void Preload (GameObject prefab, int num)
     {
         Init(prefab);
@@ -78,6 +70,14 @@ public class PoolManager : SingletonGeneric<PoolManager>
         else
         {
             Destroy(obj); 
+        }
+    }
+
+    private void Init(GameObject prefab)
+    {
+        if (prefab != null && pools.ContainsKey(prefab.name) == false)
+        {
+            pools[prefab.name] = new Pool(prefab);
         }
     }
 }

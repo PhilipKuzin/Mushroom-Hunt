@@ -8,11 +8,11 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
     [SerializeField] private GameObject _treePrefab;
     [SerializeField] private GameObject _mushroomPrefab;
 
+    public float LaneOffset { get; private set; } = 2.2f;
+
     private int _itemSpace = 5;
     private int _itemCountInMap = 5;
     private int _mapSize;
-    private float _LaneOffset = 2.2f;           // в playercontroller брать lane offset отсюда! 
-
     private int _mushroomCountInItem = 10;
     private float _mushroomHeight = 0.25f;
 
@@ -123,7 +123,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             else if (i == 3) { mapItem.SetValues(_treePrefab, TrackPos.Center, MushroomStyle.Empty); }
             else if (i == 4) { mapItem.SetValues(_treePrefab, TrackPos.Right, MushroomStyle.Empty); }
 
-            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * _LaneOffset, 0, i * _itemSpace);
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * LaneOffset, 0, i * _itemSpace);
 
             CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
 
@@ -160,7 +160,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             else if (i == 3) { mapItem.SetValues(MushroomStyle.Line); }
             else if (i == 4) { mapItem.SetValues(_treePrefab, TrackPos.Left, MushroomStyle.Empty); }
 
-            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * _LaneOffset, 0, i * _itemSpace);
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * LaneOffset, 0, i * _itemSpace);
 
             CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
 
@@ -187,7 +187,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             else if (i == 2) { mapItem.SetValues(_treePrefab, TrackPos.Left, MushroomStyle.Empty); }
 
 
-            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * _LaneOffset, 0, 0);
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * LaneOffset, 0, 0);
 
             CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
 
@@ -213,7 +213,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             else if (i == 1) { mapItem.SetValues(MushroomStyle.Line); }
             else if (i == 2) { mapItem.SetValues(_treePrefab, TrackPos.Right, MushroomStyle.Empty); }
 
-            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * _LaneOffset, 0, 0);
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * LaneOffset, 0, 0);
 
             CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
 
@@ -241,7 +241,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             else if (i == 3) { mapItem.SetValues(_treePrefab, TrackPos.Right, MushroomStyle.Empty); }
             else if (i == 4) { mapItem.SetValues(MushroomStyle.Line); }
 
-            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * _LaneOffset, 0, i * _itemSpace);
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * LaneOffset, 0, i * _itemSpace);
 
             CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
 

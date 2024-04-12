@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MushroomController : MonoBehaviour
 {
     private float _rotationSpeed = 100;
 
-    void Start()
+    private void Start()
     {
         _rotationSpeed += Random.Range(0, _rotationSpeed / 4f);
     }
 
-    void Update()
+    private void Update()
     {
         transform.Rotate(0, _rotationSpeed * Time.deltaTime, 0);
     }

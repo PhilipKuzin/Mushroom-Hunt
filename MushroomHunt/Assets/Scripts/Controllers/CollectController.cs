@@ -1,8 +1,9 @@
 using TMPro;
+using UnityEngine;
 
 public class CollectController : SingletonGeneric<CollectController>
 {
-    public TMP_Text textDisplay;
+    [SerializeField] private TMP_Text textDisplay;
     public int Counter { get; private set; }
 
     private void Update()

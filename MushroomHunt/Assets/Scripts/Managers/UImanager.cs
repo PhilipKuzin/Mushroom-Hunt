@@ -9,12 +9,14 @@ public class UImanager : SingletonGeneric<UImanager>
     public void Pause()
     {
         Time.timeScale = 0f;
+        PlayerController.Instance.PauseMovement();
         _pausePanel.SetActive(true);
     }
 
     public void Resume()
     {
         Time.timeScale = 1.0f;
+        PlayerController.Instance.ResumeMovement();
         _pausePanel.SetActive(false);
     }
 

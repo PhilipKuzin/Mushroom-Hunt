@@ -10,7 +10,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
 
     public float LaneOffset { get; private set; } = 2.2f;
 
-    private int _itemSpace = 5;
+    private int _itemSpace = 9;
     private int _itemCountInMap = 5;
     private int _mapSize;
     private int _mushroomCountInItem = 10;
@@ -47,8 +47,6 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
         maps.Add(MakeMap1());
         maps.Add(MakeMap2());
         maps.Add(MakeMap2());
-        maps.Add(MakeMap3());
-        maps.Add(MakeMap4());
         maps.Add(MakeMap5());
         maps.Add(MakeMap5());
 
@@ -172,59 +170,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
         }
         return result;
     }
-    private GameObject MakeMap3()
-    {
-        GameObject result = new GameObject();
-        result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
-        MapItem mapItem = new MapItem();
 
-        for (int i = 0; i < _itemCountInMap - 2; i++)
-        {
-            mapItem.SetValues(null, TrackPos.Center, MushroomStyle.Empty);
-
-            if (i == 0) { mapItem.SetValues(_treePrefab, TrackPos.Center, MushroomStyle.Empty); }
-            else if (i == 1) { mapItem.SetValues(_stumpPrefab, TrackPos.Right, MushroomStyle.Jump); }
-            else if (i == 2) { mapItem.SetValues(_treePrefab, TrackPos.Left, MushroomStyle.Empty); }
-
-
-            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * LaneOffset, 0, 0);
-
-            CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
-
-            if (mapItem.obstacle != null)
-            {
-                GameObject go = PoolManager.Instance.Spawn(mapItem.obstacle, obstaclePos, Quaternion.identity);
-                go.transform.SetParent(result.transform);
-            }
-        }
-        return result;
-    }
-    private GameObject MakeMap4()
-    {
-        GameObject result = new GameObject();
-        result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
-        MapItem mapItem = new MapItem();
-
-        for (int i = 0; i < _itemCountInMap - 2; i++)
-        {
-            mapItem.SetValues(null, TrackPos.Left, MushroomStyle.Empty);
-
-            if (i == 0) { mapItem.SetValues(_treePrefab, TrackPos.Center, MushroomStyle.Empty); }
-            else if (i == 1) { mapItem.SetValues(MushroomStyle.Line); }
-            else if (i == 2) { mapItem.SetValues(_treePrefab, TrackPos.Right, MushroomStyle.Empty); }
-
-            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * LaneOffset, 0, 0);
-
-            CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
-
-            if (mapItem.obstacle != null)
-            {
-                GameObject go = PoolManager.Instance.Spawn(mapItem.obstacle, obstaclePos, Quaternion.identity);
-                go.transform.SetParent(result.transform);
-            }
-        }
-        return result;
-    }
     private GameObject MakeMap5()
     {
         GameObject result = new GameObject();
@@ -275,7 +221,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
         {
             for (int i = -_mushroomCountInItem / 2; i < _mushroomCountInItem / 2; i++)
             {
-                mushroomPos.y = Mathf.Max(-1 / 6f * Mathf.Pow(i, 2) + (float)1.6, _mushroomHeight);
+                mushroomPos.y = Mathf.Max(-1 / 10f * Mathf.Pow(i, 2) + (float)1.6, _mushroomHeight);
                 mushroomPos.z = i * ((float)_itemSpace / _mushroomCountInItem);
                 GameObject go = PoolManager.Instance.Spawn(_mushroomPrefab, mushroomPos + pos, Quaternion.identity);
                 go.transform.SetParent(parentObject.transform);

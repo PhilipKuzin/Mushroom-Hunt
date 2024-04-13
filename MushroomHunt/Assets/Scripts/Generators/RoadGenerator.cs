@@ -6,13 +6,14 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
     public GameObject roadTilePrefab;
     private List<GameObject> roads = new List<GameObject>();
 
-    public int maxRoadCount = 5;
-    public float speed = 0;  
-    public float maxSpeed = 10;
+    [SerializeField] private int maxRoadCount = 10;
+    [SerializeField] private float maxSpeed = 10;
+
+    public float speed = 0;
 
     private void Start()
     {
-        //PoolManager.Instance.Preload(roadTilePrefab, 10);  предзагрузка участков дороги
+        PoolManager.Instance.Preload(roadTilePrefab, 10);  // предзагрузка участков дороги
         ResetLevel();
     }
     private void Update()
@@ -59,7 +60,7 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
         Vector3 pos = Vector3.zero;
         if (roads.Count > 0)
         {
-            pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 4);
+            pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 9);
         }
 
         int r = Random.Range (0, 2);

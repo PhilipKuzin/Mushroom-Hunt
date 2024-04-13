@@ -6,7 +6,6 @@ public class ObstacleController : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            //other.gameObject.GetComponent<PlayerController>().ResetGame();
             UImanager.Instance.ShowLosePanel();
         }
     }

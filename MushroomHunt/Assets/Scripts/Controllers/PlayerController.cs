@@ -66,11 +66,6 @@ public class PlayerController : SingletonGeneric<PlayerController>
         transform.position = Vector3.MoveTowards(transform.position, _targetPos, _laneChangeSpeed * Time.deltaTime);
     }
 
-    //private void OnDisable()
-    //{
-    //    SwipeManager.Instance.MoveEvent -= SwipeHandler;
-    //}
-
     IEnumerator JumpSequence(float jumpHeight)
     {
         Vector3 startPos = transform.position;
@@ -130,9 +125,18 @@ public class PlayerController : SingletonGeneric<PlayerController>
         _allowMovement = false;
         transform.position = _startGamePosition;
         transform.rotation = _startGameRotation;
-        _targetPos = transform.position;
-        //_animator.SetTrigger(IDLE);       
+        _targetPos = transform.position;   
         RoadGenerator.Instance.ResetLevel();
+    }
+
+    public void PauseMovement ()
+    {
+        _allowMovement = false;
+    }
+
+    public void ResumeMovement ()
+    {
+        _allowMovement = true;
     }
 
 }

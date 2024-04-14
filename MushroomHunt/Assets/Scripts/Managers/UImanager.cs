@@ -23,7 +23,7 @@ public class UImanager : SingletonGeneric<UImanager>
     public void ShowLosePanel ()
     {
         Time.timeScale = 0f;
-        _shroomsNumber.text = "" + CollectController.Instance.Counter;
+        _shroomsNumber.text = CollectController.Instance.Counter.ToString();
         _losePanel.SetActive(true);
     }
 

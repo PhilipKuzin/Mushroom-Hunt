@@ -8,7 +8,7 @@ public class CollectController : SingletonGeneric<CollectController>
 
     private void Update()
     {
-        textDisplay.text = "" + Counter;
+        textDisplay.text = Counter.ToString();
     }
 
     public void ResetCollectController ()

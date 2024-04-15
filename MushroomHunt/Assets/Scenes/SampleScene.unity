@@ -14,19 +14,19 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.059060108, g: 0.54762095, b: 0.745283, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.4392157, g: 0.76862746, b: 0.90588236, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.035
+  m_FogDensity: 0.036
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.40626556, g: 0.4835239, b: 0.6792453, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 1bb8f059c536f1041a272ee83131b2bf, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -518,7 +518,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -250, y: -361}
+  m_AnchoredPosition: {x: -250, y: -357}
   m_SizeDelta: {x: 389.455, y: 108.479}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &76009190
@@ -828,8 +828,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281677133
-  m_fontColor: {r: 0.3019608, g: 0.20784314, b: 0.20784314, a: 1}
+    rgba: 4292269801
+  m_fontColor: {r: 0.9150943, g: 0.84085083, b: 0.84085083, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1068,8 +1068,8 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.8235294, g: 0.7529412, b: 0.6784314, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.43915984, g: 0.7660512, b: 0.9056604, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1603,8 +1603,8 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
-  m_Range: 10
+  m_Intensity: 1.5
+  m_Range: 37.12
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -1646,7 +1646,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 4719
+  m_ColorTemperature: 6697
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -1661,13 +1661,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42247343, y: -0.023724351, z: 0.011062846, w: 0.9059973}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0.39044833, y: -0.161729, z: 0.34682897, w: 0.8373192}
+  m_LocalPosition: {x: 0, y: 15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -3, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 45}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2295,7 +2295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roadTilePrefab: {fileID: 3458124442652873572, guid: b9c6a7ea890bd104d9ea0665aabf4761,
     type: 3}
-  maxRoadCount: 10
+  maxRoadCount: 7
   maxSpeed: 10
   speed: 0
 --- !u!4 &1064108471
@@ -2894,12 +2894,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stumpPrefab: {fileID: 4736653311728975474, guid: 859fb946da19fb641a612ed899f475bc,
     type: 3}
-  _treePrefab: {fileID: 9008334236839633655, guid: 4a49468991fc8f045abffc5faa7b1b89,
-    type: 3}
+  _treePrefabs:
+  - {fileID: 9008334236839633655, guid: 4a49468991fc8f045abffc5faa7b1b89, type: 3}
+  - {fileID: 4632275460251290765, guid: b3e83569f9bb2384391a737c8607dfbb, type: 3}
+  - {fileID: 6723646739593020127, guid: 5e5b567c414a3a849945f085cdb9965e, type: 3}
+  - {fileID: 781025186103817673, guid: fa5d68348cd60a447a7eee4b5b26e0e6, type: 3}
   _mushroomPrefab: {fileID: 7983549303045791861, guid: 35250fddfa66eef4c8344d253a075c99,
     type: 3}
-  maps: []
-  activeMaps: []
 --- !u!1 &1393404610
 GameObject:
   m_ObjectHideFlags: 0
@@ -3578,6 +3579,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233867138446155668, guid: 1607c7876ab413d47a994ab451c12b56,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

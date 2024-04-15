@@ -6,14 +6,14 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
     public GameObject roadTilePrefab;
     private List<GameObject> roads = new List<GameObject>();
 
-    [SerializeField] private int maxRoadCount = 10;
+    [SerializeField] private int maxRoadCount = 7;
     [SerializeField] private float maxSpeed = 10;
 
     public float speed = 0;
 
     private void Start()
     {
-        PoolManager.Instance.Preload(roadTilePrefab, 10);  // предзагрузка участков дороги
+        PoolManager.Instance.Preload(roadTilePrefab, 7);  // предзагрузка участков дороги
         ResetLevel();
     }
     private void Update()
@@ -80,3 +80,4 @@ public class RoadGenerator : SingletonGeneric<RoadGenerator>
 
     }
 }
+

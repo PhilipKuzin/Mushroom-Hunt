@@ -6,6 +6,7 @@ public class UImanager : SingletonGeneric<UImanager>
     [SerializeField] private GameObject _pausePanel;
     [SerializeField] private GameObject _losePanel;
     [SerializeField] private TMP_Text _shroomsNumber;
+
     public void Pause()
     {
         Time.timeScale = 0f;

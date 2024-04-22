@@ -7,6 +7,7 @@ public class ObstacleController : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             UImanager.Instance.ShowLosePanel();
+            SoundManager.Instance.PlayObstacleCollisionSound();
         }
     }
 }

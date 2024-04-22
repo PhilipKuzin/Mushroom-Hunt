@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System;
 using UnityEngine;
-
 
 public class MapGenerator : SingletonGeneric<MapGenerator>
 {
@@ -12,19 +10,22 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
     private List<GameObject> maps = new List<GameObject>();
     private List<GameObject> activeMaps = new List<GameObject>();
 
-    public float LaneOffset { get; private set; } = 2.2f;
-
     private int _itemSpace = 9;
     private int _itemCountInMap = 5;
     private int _mapSize;
     private int _mushroomCountInItem = 10;
     private float _mushroomHeight = 0.25f;
+    public float LaneOffset { get; private set; } = 2.2f;
 
     enum TrackPos { Left = -1, Center = 0, Right = 1 };
     enum MushroomStyle { Empty, Line, Jump };
 
     struct MapItem
     {
+        public GameObject obstacle;
+        public TrackPos trackPos;
+        public MushroomStyle mushroomStyle;
+
         public void SetValues(GameObject obstacle, TrackPos trackPos, MushroomStyle mushroomStyle)
         {
             this.obstacle = obstacle;
@@ -36,13 +37,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             this.mushroomStyle = mushroomStyle;
         }
 
-        public GameObject obstacle;
-        public TrackPos trackPos;
-        public MushroomStyle mushroomStyle;
     }
-
-
-
 
     private void Awake()
     {
@@ -50,13 +45,14 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
 
         maps.Add(MakeMap1());
         maps.Add(MakeMap1());
-        maps.Add(MakeMap1());
         maps.Add(MakeMap2());
         maps.Add(MakeMap2());
         maps.Add(MakeMap3());
         maps.Add(MakeMap3());
-        //maps.Add(MakeMap4());
-        //maps.Add(MakeMap4());
+        maps.Add(MakeMap4());
+        maps.Add(MakeMap4());
+        maps.Add(MakeMap5());
+        maps.Add(MakeMap5());
 
         foreach (GameObject map in maps)
         {
@@ -77,6 +73,16 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             RemoveFirstActiveMap();
             AddActiveMap();
         }
+    }
+
+    public void ResetMaps()
+    {
+        while (activeMaps.Count > 0)
+        {
+            RemoveFirstActiveMap();
+        }
+        AddActiveMap();
+        AddActiveMap();
     }
 
     private void AddActiveMap()
@@ -103,16 +109,6 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
         activeMaps.RemoveAt(0);
     }
 
-    public void ResetMaps()
-    {
-        while (activeMaps.Count > 0)
-        {
-            RemoveFirstActiveMap();
-        }
-        AddActiveMap();
-        AddActiveMap();
-    }
-
     private GameObject GetRandomTree ()
     {
         GameObject randomObstacle;
@@ -128,7 +124,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
         GameObject result = new GameObject();
         GameObject randomTree;
 
-        result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
+        result.transform.SetParent(transform);  
         MapItem mapItem = new MapItem();
 
 
@@ -168,7 +164,7 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
     {
         GameObject result = new GameObject();
         GameObject randomTree;
-        result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
+        result.transform.SetParent(transform);  
         MapItem mapItem = new MapItem();
 
         for (int i = 0; i < _itemCountInMap; i++)
@@ -213,6 +209,70 @@ public class MapGenerator : SingletonGeneric<MapGenerator>
             else if (i == 2) { mapItem.SetValues(randomTree, TrackPos.Left, MushroomStyle.Empty); }
             else if (i == 3) { mapItem.SetValues(randomTree, TrackPos.Right, MushroomStyle.Empty); }
             else if (i == 4) { mapItem.SetValues(MushroomStyle.Line); }
+
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * LaneOffset, 0, i * _itemSpace);
+
+            CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
+
+            if (mapItem.obstacle != null)
+            {
+                GameObject go = PoolManager.Instance.Spawn(mapItem.obstacle, obstaclePos, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+            }
+        }
+        return result;
+    }
+
+    private GameObject MakeMap4()
+    {
+        GameObject result = new GameObject();
+        GameObject randomTree;
+
+        result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
+        MapItem mapItem = new MapItem();
+
+        for (int i = 0; i < _itemCountInMap; i++)
+        {
+            randomTree = GetRandomTree();
+            mapItem.SetValues(null, TrackPos.Center, MushroomStyle.Empty);
+
+            if (i == 0) { mapItem.SetValues(_stumpPrefab, TrackPos.Center, MushroomStyle.Empty); }
+            else if (i == 1) { mapItem.SetValues(null, TrackPos.Center, MushroomStyle.Line); }
+            else if (i == 2) { mapItem.SetValues(randomTree, TrackPos.Left, MushroomStyle.Empty); }
+            else if (i == 3) { mapItem.SetValues(randomTree, TrackPos.Right, MushroomStyle.Empty); }
+            else if (i == 4) { mapItem.SetValues(MushroomStyle.Line); }
+
+            Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * LaneOffset, 0, i * _itemSpace);
+
+            CreateMushrooms(mapItem.mushroomStyle, obstaclePos, result);
+
+            if (mapItem.obstacle != null)
+            {
+                GameObject go = PoolManager.Instance.Spawn(mapItem.obstacle, obstaclePos, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+            }
+        }
+        return result;
+    }
+
+    private GameObject MakeMap5()
+    {
+        GameObject result = new GameObject();
+        GameObject randomTree;
+
+        result.transform.SetParent(transform);  // чтобы на сцене result закидывался в иерархии к map generator 
+        MapItem mapItem = new MapItem();
+
+        for (int i = 0; i < _itemCountInMap; i++)
+        {
+            randomTree = GetRandomTree();
+            mapItem.SetValues(null, TrackPos.Right, MushroomStyle.Empty);
+
+            if (i == 0) { mapItem.SetValues(randomTree, TrackPos.Center, MushroomStyle.Empty); }
+            else if (i == 1) { mapItem.SetValues(MushroomStyle.Line); }
+            else if (i == 2) { mapItem.SetValues(null, TrackPos.Left, MushroomStyle.Line); }
+            else if (i == 3) { mapItem.SetValues(randomTree, TrackPos.Right, MushroomStyle.Empty); }
+            else if (i == 4) { mapItem.SetValues(null, TrackPos.Center, MushroomStyle.Line); }
 
             Vector3 obstaclePos = new Vector3((int)mapItem.trackPos * LaneOffset, 0, i * _itemSpace);
 

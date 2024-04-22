@@ -17,9 +17,10 @@ public class MushroomController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
-        {
-            transform.parent.gameObject.SetActive(false);
+        {         
             CollectController.Instance.Collect();
+            SoundManager.Instance.PlayCollectSound();
+            transform.parent.gameObject.SetActive(false);
         }
     }
 }

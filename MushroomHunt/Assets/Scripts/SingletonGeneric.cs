@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public abstract class SingletonGeneric<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance = null;

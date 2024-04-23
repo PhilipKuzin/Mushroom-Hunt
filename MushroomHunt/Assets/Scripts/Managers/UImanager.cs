@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-
 public class UImanager : SingletonGeneric<UImanager>
 {
     [SerializeField] private GameObject _pausePanel;
@@ -21,18 +20,23 @@ public class UImanager : SingletonGeneric<UImanager>
         _pausePanel.SetActive(false);
     }
 
-    public void ShowLosePanel ()
+    public void ShowLosePanel()
     {
         Time.timeScale = 0f;
         _shroomsNumber.text = CollectController.Instance.Counter.ToString();
         _losePanel.SetActive(true);
     }
-
-    public void Home ()
+    public void Home()
     {
         HideLosePanel();
         PlayerController.Instance.ResetGame();
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     private void HideLosePanel()
     {
         Time.timeScale = 1f;

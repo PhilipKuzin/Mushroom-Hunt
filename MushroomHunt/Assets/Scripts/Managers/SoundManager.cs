@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class SoundManager : SingletonGeneric<SoundManager>
 {
     [SerializeField] private AudioClip _collectSound;
@@ -26,4 +25,5 @@ public class SoundManager : SingletonGeneric<SoundManager>
     {
         _audioSource.PlayOneShot(_uiTouchSound);
     }
+
 }

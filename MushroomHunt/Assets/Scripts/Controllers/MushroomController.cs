@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class MushroomController : MonoBehaviour
 {
     private float _rotationSpeed = 100;
